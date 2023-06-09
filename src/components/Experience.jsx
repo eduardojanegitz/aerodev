@@ -9,10 +9,11 @@ import {
 import { Background } from "./Background";
 import { Airplane } from "./Airplane";
 import { Cloud } from "./Cloud";
-import { useMemo, useRef } from "react";
+import { useLayoutEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import { TextSection } from "./TextSection";
+import { gsap } from "gsap";
 
 const LINE_NB_POINTS = 1000;
 const CURVE_DISTANCE = 250;
@@ -67,7 +68,7 @@ export const Experience = () => {
         position: new THREE.Vector3(
           curvePoints[4].x + 3.5,
           curvePoints[4].y,
-          curvePoints[4].z -12
+          curvePoints[4].z - 12
         ),
         title: "Avião",
         subtitle: `Assim como o avião, nosso sistema proporciona segurança, velocidade e acompanhamento em tempo real.`,
@@ -91,9 +92,13 @@ export const Experience = () => {
   const cameraGroup = useRef();
   const cameraRail = useRef();
   const scroll = useScroll();
+  const lastScroll = useRef(0);
 
   useFrame((_state, delta) => {
     const scrollOffset = Math.max(0, scroll.offset);
+
+    let friction = 1;
+    let resetCameraRail = true;
 
     // Look to close text sections
     textSections.forEach((textSection) => {
@@ -102,23 +107,44 @@ export const Experience = () => {
       );
 
       if (distance < FRICTION_DISTANCE) {
+        friction = Math.max(distance / FRICTION_DISTANCE, 0.1);
         const targetCameraRailPosition = new THREE.Vector3(
           (1 - distance / FRICTION_DISTANCE) * textSection.cameraRailDist,
           0,
           0
         );
-        cameraRail.current.position.lerp(targetCameraRailPosition, delta)
+        cameraRail.current.position.lerp(targetCameraRailPosition, delta);
+        resetCameraRail = false;
       }
     });
 
-    const curPoint = curve.getPoint(scrollOffset);
+    if (resetCameraRail) {
+      const targetCameraRailPosition = new THREE.Vector3(0, 0, 0);
+      cameraRail.current.position.lerp(targetCameraRailPosition, delta);
+    }
+
+    // Calculate lerped scroll offset
+    let lerpedScrollOffset = THREE.MathUtils.lerp(
+      lastScroll.current,
+      scrollOffset,
+      delta * friction
+    );
+
+    // Protect below 0 and above 1
+    lerpedScrollOffset = Math.min(lerpedScrollOffset, 1);
+    lerpedScrollOffset = Math.max(lerpedScrollOffset, 0);
+
+    lastScroll.current = lerpedScrollOffset;
+    tl.current.seek(lerpedScrollOffset * tl.current.duration());
+
+    const curPoint = curve.getPoint(lerpedScrollOffset);
 
     //Follow the curve points
     cameraGroup.current.position.lerp(curPoint, delta * 24);
 
     //Make the group look ahead on the curve
     const lookAtPoint = curve.getPoint(
-      Math.min(scrollOffset + CURVE_AHEAD_CAMERA, 1)
+      Math.min(lerpedScrollOffset + CURVE_AHEAD_CAMERA, 1)
     );
 
     const currentLookAt = cameraGroup.current.getWorldDirection(
@@ -135,7 +161,7 @@ export const Experience = () => {
 
     // Airplane rotation
 
-    const tangent = curve.getTangent(scrollOffset + CURVE_AHEAD_AIRPLANE);
+    const tangent = curve.getTangent(lerpedScrollOffset + CURVE_AHEAD_AIRPLANE);
 
     const nonLerpLookAt = new THREE.Group();
     nonLerpLookAt.position.copy(curPoint);
@@ -174,12 +200,41 @@ export const Experience = () => {
   });
 
   const airplane = useRef();
+
+  const tl = useRef();
+
+  const backgroundColors = useRef({
+    colorA: "#3535cc",
+    colorB: "#abaadd",
+  });
+
+  useLayoutEffect(() => {
+    tl.current = gsap.timeline();
+
+    tl.current.to(backgroundColors.current, {
+      duration: 1,
+      colorA: "#6f35cc",
+      colorB: "#ffad30",
+    });
+    tl.current.to(backgroundColors.current, {
+      duration: 1,
+      colorA: "#424242",
+      colorB: "#ffcc00",
+    });
+    tl.current.to(backgroundColors.current, {
+      duration: 1,
+      colorA: "#81318b",
+      colorB: "#55ab8f",
+    });
+
+    tl.current.pause();
+  }, []);
   return (
     <>
       <directionalLight position={[0.3, 1]} intensity={0.1} />
       {/* <OrbitControls /> */}
       <group ref={cameraGroup}>
-        <Background />
+        <Background backgroundColors={backgroundColors} />
         <group ref={cameraRail}>
           <PerspectiveCamera position={[0, 0, 5]} fov={30} makeDefault />
         </group>
