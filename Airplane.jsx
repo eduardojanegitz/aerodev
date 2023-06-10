@@ -11,8 +11,7 @@ export function Model(props) {
   return (
     <group {...props} dispose={null}>
       <mesh geometry={nodes.Torus001_1.geometry} material={materials['07___Default']} />
-      <mesh geometry={nodes.Torus001_1_1.geometry} material={materials['13___Default']} />
-      <mesh geometry={nodes.Torus001_1_2.geometry} material={materials['08___Default']} />
+
     </group>
   )
 }

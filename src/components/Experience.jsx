@@ -14,6 +14,7 @@ import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import { TextSection } from "./TextSection";
 import { gsap } from "gsap";
+import { fadeOnBeforeCompile } from "../utils/fadeMaterial";
 
 const LINE_NB_POINTS = 1000;
 const CURVE_DISTANCE = 250;
@@ -452,6 +453,7 @@ export const Experience = () => {
             opacity={1}
             transparent
             envMapIntensity={2}
+            onBeforeCompile={(fadeOnBeforeCompile)}
           />
         </mesh>
       </group>
