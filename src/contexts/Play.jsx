@@ -4,12 +4,15 @@ const Context = createContext();
 
 export const PlayProvider = ({ children }) => {
   const [play, setPlay] = useState(false);
+  const [hasScroll, setHasScroll] = useState(false);
 
   return (
     <Context.Provider
       value={{
         play,
         setPlay,
+        hasScroll,
+        setHasScroll,
       }}
     >
       {children}

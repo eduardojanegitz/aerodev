@@ -274,9 +274,13 @@ export const Experience = () => {
   const scroll = useScroll();
   const lastScroll = useRef(0);
 
-  const { play } = usePlay();
+  const { play, setHasScroll } = usePlay();
 
   useFrame((_state, delta) => {
+    if (lastScroll.current <= 0 && scroll.offset > 0) {
+      setHasScroll(true);
+    }
+
     lineMaterialRef.current.opacity = sceneOpacity.current;
 
     if (play && sceneOpacity.current < 1) {
@@ -435,64 +439,68 @@ export const Experience = () => {
     if (play) {
       planeInTl.current.play();
     }
-  });
-  return (
-    <>
-      <directionalLight position={[0.3, 1]} intensity={0.1} />
-      {/* <OrbitControls /> */}
-      <group ref={cameraGroup}>
-        <Background backgroundColors={backgroundColors} />
-        <group ref={cameraRail}>
-          <PerspectiveCamera position={[0, 0, 5]} fov={30} makeDefault />
-        </group>
-        <group ref={airplane}>
-          <Float floatIntensity={1} speed={1.5} rotationIntensity={0.5}>
-            <Airplane
-              rotation-y={Math.PI / 2}
-              scale={[0.2, 0.2, 0.2]}
-              position-y={0.1}
-            />
-          </Float>
-        </group>
-      </group>
+  }, [play]);
 
-      {/* TEXT */}
-      {textSections.map((textSection, index) => (
-        <TextSection {...textSection} key={index} />
-      ))}
-      {/* LINE */}
-      <group position-y={-2}>
-        {/* <Line
+  return useMemo(
+    () => (
+      <>
+        <directionalLight position={[0.3, 1]} intensity={0.1} />
+        {/* <OrbitControls /> */}
+        <group ref={cameraGroup}>
+          <Background backgroundColors={backgroundColors} />
+          <group ref={cameraRail}>
+            <PerspectiveCamera position={[0, 0, 5]} fov={30} makeDefault />
+          </group>
+          <group ref={airplane}>
+            <Float floatIntensity={1} speed={1.5} rotationIntensity={0.5}>
+              <Airplane
+                rotation-y={Math.PI / 2}
+                scale={[0.2, 0.2, 0.2]}
+                position-y={0.1}
+              />
+            </Float>
+          </group>
+        </group>
+
+        {/* TEXT */}
+        {textSections.map((textSection, index) => (
+          <TextSection {...textSection} key={index} />
+        ))}
+        {/* LINE */}
+        <group position-y={-2}>
+          {/* <Line
           points={linePoints}
           color={"white"}
           opacity={0.7}
           transparent
           lineWidth={16}
         /> */}
-        <mesh>
-          <extrudeGeometry
-            args={[
-              shape,
-              {
-                steps: LINE_NB_POINTS,
-                bevelEnabled: false,
-                extrudePath: curve,
-              },
-            ]}
-          />
-          <meshStandardMaterial
-            color={"white"}
-            ref={lineMaterialRef}
-            transparent
-            envMapIntensity={2}
-            onBeforeCompile={fadeOnBeforeCompile}
-          />
-        </mesh>
-      </group>
-      {/* CLOUDS */}
-      {clouds.map((cloud, index) => (
-        <Cloud sceneOpacity={sceneOpacity} {...cloud} key={index} />
-      ))}
-    </>
+          <mesh>
+            <extrudeGeometry
+              args={[
+                shape,
+                {
+                  steps: LINE_NB_POINTS,
+                  bevelEnabled: false,
+                  extrudePath: curve,
+                },
+              ]}
+            />
+            <meshStandardMaterial
+              color={"white"}
+              ref={lineMaterialRef}
+              transparent
+              envMapIntensity={2}
+              onBeforeCompile={fadeOnBeforeCompile}
+            />
+          </mesh>
+        </group>
+        {/* CLOUDS */}
+        {clouds.map((cloud, index) => (
+          <Cloud sceneOpacity={sceneOpacity} {...cloud} key={index} />
+        ))}
+      </>
+    ),
+    []
   );
 };

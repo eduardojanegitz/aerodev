@@ -12,7 +12,7 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 2px;
 }
 
 /* TRACK */
@@ -32,6 +32,10 @@ body {
   left: 0;
   bottom: 0;
   right: 0;
+}
+
+.overlay--disable {
+  pointer-events: none;
 }
 
 .loader {
@@ -74,6 +78,24 @@ body {
   top: 42px;
   transform: scale(0.25);
   transform-origin: center top;
+}
+
+.intro__scroll {
+  opacity: 0;
+  color: #FFF;
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.05rem;
+  position: absolute;
+  top: 24vh;
+}
+
+.intro--disappear .intro__scroll {
+  animation: fadeIn 1s ease-in-out 1.5s forwards;
+}
+
+.overlay--scrolled .intro__scroll {
+  animation: fadeOut 1s ease-in-out forwards;
 }
 
 .explore {
