@@ -40,7 +40,7 @@ body {
   left: 0;
   bottom: 0;
   right: 0;
-  background: #FFF;
+  background: #fff;
   transition: opacity 2s ease-in-out;
 }
 
@@ -68,6 +68,12 @@ body {
   top: 50vh;
   animation: fadeUp 2.4s ease-in-out;
   transition: all 2s ease-in-out;
+}
+
+.intro--disappear .logo {
+  top: 42px;
+  transform: scale(0.25);
+  transform-origin: center top;
 }
 
 .explore {
@@ -113,6 +119,10 @@ body {
   transform: translateX(-50%) translateY(50%);
 }
 
+.intro--disappear .explore {
+  animation: fadeOut 1s ease-in-out forwards;
+}
+
 /* ANIMATIONS */
 
 @keyframes fadeUp {
@@ -147,5 +157,3 @@ body {
     opacity: 0;
   }
 }
-
-

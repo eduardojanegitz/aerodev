@@ -9,12 +9,13 @@ import {
 import { Background } from "./Background";
 import { Airplane } from "./Airplane";
 import { Cloud } from "./Cloud";
-import { useLayoutEffect, useMemo, useRef } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import { TextSection } from "./TextSection";
 import { gsap } from "gsap";
 import { fadeOnBeforeCompile } from "../utils/fadeMaterial";
+import { usePlay } from "../contexts/Play";
 
 const LINE_NB_POINTS = 1000;
 const CURVE_DISTANCE = 250;
@@ -37,6 +38,10 @@ export const Experience = () => {
     ],
     []
   );
+
+  const sceneOpacity = useRef(0);
+  const lineMaterialRef = useRef();
+
   /* RESPONSÁVEL POR GERAR A DIREÇÃO DA LINHA BRANCA */
   const curve = useMemo(() => {
     return new THREE.CatmullRomCurve3(curvePoints, false, "catmullrom", 0.5);
@@ -269,7 +274,19 @@ export const Experience = () => {
   const scroll = useScroll();
   const lastScroll = useRef(0);
 
+  const { play } = usePlay();
+
   useFrame((_state, delta) => {
+    lineMaterialRef.current.opacity = sceneOpacity.current;
+
+    if (play && sceneOpacity.current < 1) {
+      sceneOpacity.current = THREE.MathUtils.lerp(
+        sceneOpacity.current,
+        1,
+        delta * 0.1
+      );
+    }
+
     const scrollOffset = Math.max(0, scroll.offset);
 
     let friction = 1;
@@ -377,11 +394,12 @@ export const Experience = () => {
   const airplane = useRef();
 
   const tl = useRef();
-
   const backgroundColors = useRef({
     colorA: "#3535cc",
     colorB: "#abaadd",
   });
+
+  const planeInTl = useRef();
 
   useLayoutEffect(() => {
     tl.current = gsap.timeline();
@@ -403,7 +421,21 @@ export const Experience = () => {
     });
 
     tl.current.pause();
+
+    planeInTl.current = gsap.timeline();
+    planeInTl.current.pause();
+    planeInTl.current.from(airplane.current.position, {
+      duration: 3,
+      z: 5,
+      y: -2,
+    });
   }, []);
+
+  useEffect(() => {
+    if (play) {
+      planeInTl.current.play();
+    }
+  });
   return (
     <>
       <directionalLight position={[0.3, 1]} intensity={0.1} />
@@ -450,33 +482,17 @@ export const Experience = () => {
           />
           <meshStandardMaterial
             color={"white"}
-            opacity={1}
+            ref={lineMaterialRef}
             transparent
             envMapIntensity={2}
-            onBeforeCompile={(fadeOnBeforeCompile)}
+            onBeforeCompile={fadeOnBeforeCompile}
           />
         </mesh>
       </group>
       {/* CLOUDS */}
       {clouds.map((cloud, index) => (
-        <Cloud {...cloud} key={index} />
+        <Cloud sceneOpacity={sceneOpacity} {...cloud} key={index} />
       ))}
-      {/* <Cloud opacity={0.5} scale={[0.3, 0.3, 0.3]} position={[-2, 1, -3]} />
-      <Cloud opacity={0.5} scale={[0.3, 0.3, 0.4]} position={[1.5, -0.5, -2]} />
-      <Cloud
-        opacity={0.7}
-        scale={[0.3, 0.3, 0.4]}
-        rotation-y={Math.PI / 9}
-        position={[2, -0.2, -2]}
-      />
-      <Cloud
-        opacity={0.7}
-        scale={[0.4, 0.4, 0.4]}
-        rotation-y={Math.PI / 9}
-        position={[1, -0.2, -12]}
-      />
-      <Cloud opacity={0.7} scale={[0.5, 0.5, 0.5]} position={[-1, 1, -53]} />
-      <Cloud opacity={0.3} scale={[0.8, 0.8, 0.8]} position={[0, 1, -100]} /> */}
     </>
   );
 };
