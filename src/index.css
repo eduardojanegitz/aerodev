@@ -82,7 +82,7 @@ body {
 
 .intro__scroll {
   opacity: 0;
-  color: #FFF;
+  color: #fff;
   font-family: "Poppins", sans-serif;
   font-size: 1rem;
   letter-spacing: 0.05rem;
@@ -96,6 +96,33 @@ body {
 
 .overlay--scrolled .intro__scroll {
   animation: fadeOut 1s ease-in-out forwards;
+}
+
+.outro {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 4s ease-in-out;
+
+  /* padding: 20px;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 5px; */
+}
+
+.outro--appear {
+  opacity: 1;
+}
+
+.outro__input {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.5rem;
+  color: #fff;
 }
 
 .explore {
@@ -143,6 +170,25 @@ body {
 
 .intro--disappear .explore {
   animation: fadeOut 1s ease-in-out forwards;
+}
+
+/* RESPONSIVE */
+
+@media screen and (max-width: 768px) {
+  .logo {
+    font-size: 3rem;
+    letter-spacing: 0.25rem;
+  }
+
+  .intro--disappear .logo {
+    top: 24px;
+    transform: scale(0.5);
+    transform-origin: center top;
+  }
+
+  .outro__input {
+    font-size: 1rem;
+  }
 }
 
 /* ANIMATIONS */

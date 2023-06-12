@@ -3,7 +3,7 @@ import { usePlay } from "../contexts/Play";
 
 export const Overlay = () => {
   const { progress } = useProgress();
-  const { play, setPlay, hasScroll } = usePlay();
+  const { play, end, setPlay, hasScroll } = usePlay();
 
   return (
     <div
@@ -28,6 +28,10 @@ export const Overlay = () => {
           </button>
         </div>
       )}
+      <div  className={`outro ${end ? "outro--appear" : ""}`}>
+        <textarea className="outro__input" placeholder="seuemail@email.com" />
+        {/* <button className="explore" onClick={setPlay(false)}>Contate-nos</button> */}
+      </div>
     </div>
   );
 };

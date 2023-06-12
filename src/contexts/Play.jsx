@@ -4,6 +4,7 @@ const Context = createContext();
 
 export const PlayProvider = ({ children }) => {
   const [play, setPlay] = useState(false);
+  const [end, setEnd] = useState(false);
   const [hasScroll, setHasScroll] = useState(false);
 
   return (
@@ -11,6 +12,8 @@ export const PlayProvider = ({ children }) => {
       value={{
         play,
         setPlay,
+        end,
+        setEnd,
         hasScroll,
         setHasScroll,
       }}

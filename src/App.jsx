@@ -6,13 +6,13 @@ import { Overlay } from "./components/Overlay";
 import { usePlay } from "./contexts/Play";
 
 function App() {
-  const { play } = usePlay();
+  const { play, end } = usePlay();
   return (
     <>
       <Canvas>
         <color attach="background" args={["#ececec"]} />
         <ScrollControls
-          pages={play ? 20 : 0}
+          pages={play && !end ? 20 : 0}
           damping={0.5}
           style={{
             top: "10px",

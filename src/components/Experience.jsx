@@ -16,6 +16,7 @@ import { TextSection } from "./TextSection";
 import { gsap } from "gsap";
 import { fadeOnBeforeCompile } from "../utils/fadeMaterial";
 import { usePlay } from "../contexts/Play";
+import { Speed } from "./Speed";
 
 const LINE_NB_POINTS = 1000;
 const CURVE_DISTANCE = 250;
@@ -56,8 +57,8 @@ export const Experience = () => {
           curvePoints[1].y,
           curvePoints[1].z
         ),
-        subtitle: `Bem-vindo ao eventory,
-        Sente-se e aproveite a viagem! `,
+        title: "Bem-vindo.",
+        subtitle: `Controle o seu patrimônio com o EVENTORY. `,
       },
       {
         cameraRailDist: 1.5,
@@ -67,7 +68,17 @@ export const Experience = () => {
           curvePoints[2].z
         ),
         title: "Quem somos",
-        subtitle: `Somos uma empresa de soluções customizadas de software.`,
+        subtitle: `Somos a evecoding, uma empresa de soluções customizadas de software.`,
+      },
+      {
+        cameraRailDist: 1.5,
+        position: new THREE.Vector3(
+          curvePoints[3].x - 4,
+          curvePoints[3].y,
+          curvePoints[3].z
+        ),
+        title: "Segurança",
+        subtitle: `O Eventory oferece segurança robusta, protegendo ativos e garantindo integridade de dados, assim como a segurança em um voo de avião.`,
       },
       {
         cameraRailDist: 1.5,
@@ -76,8 +87,28 @@ export const Experience = () => {
           curvePoints[4].y,
           curvePoints[4].z - 12
         ),
-        title: "Avião",
-        subtitle: `Assim como o avião, nosso sistema proporciona segurança, velocidade e acompanhamento em tempo real.`,
+        // title: "Visão Panorâmica",
+        subtitle: `Obtenha uma visão completa e em tempo real do seu patrimônio com nossos dashboards poderosos. Assim como um avião oferece uma visão panorâmica, nossos dashboards simplificam a gestão, permitindo que você tome decisões informadas`,
+      },
+      {
+        cameraRailDist: 1.5,
+        position: new THREE.Vector3(
+          curvePoints[5].x - 3.5,
+          curvePoints[5].y,
+          curvePoints[5].z - 1
+        ),
+        // title: "Visão Panorâmica",
+        subtitle: `Monitore em tempo real o status e localização dos ativos, assim como um piloto acompanha o progresso do voo. Mantenha um monitoramento preciso e contínuo das atividades relacionadas ao seu patrimônio.`,
+      },
+      {
+        cameraRailDist: 1.5,
+        position: new THREE.Vector3(
+          curvePoints[6].x + 2.5,
+          curvePoints[6].y,
+          curvePoints[6].z
+        ),
+        title: "Agrangência",
+        subtitle: `Nossa solução abrange e monitora múltiplos locais e ativos, proporcionando controle abrangente independentemente da localização, como um avião cobrindo vastas áreas`,
       },
     ];
   }, []);
@@ -271,24 +302,47 @@ export const Experience = () => {
   /* RESPONSÁVEL POR FAZER O AVIÃO IR PARA FRENTE */
   const cameraGroup = useRef();
   const cameraRail = useRef();
+  const camera = useRef();
   const scroll = useScroll();
   const lastScroll = useRef(0);
 
-  const { play, setHasScroll } = usePlay();
+  const { play, setHasScroll, end, setEnd } = usePlay();
 
   useFrame((_state, delta) => {
+if(window.innerWidth > window.innerHeight) {
+  // LANDSCAPE
+  camera.current.fov = 30;
+  camera.current.position.z = 5;
+} else {
+  // PORTRAIT
+  camera.current.fov = 80;
+  camera.current.position.z = 2
+}
+
     if (lastScroll.current <= 0 && scroll.offset > 0) {
       setHasScroll(true);
     }
 
-    lineMaterialRef.current.opacity = sceneOpacity.current;
-
-    if (play && sceneOpacity.current < 1) {
+    if (play && !end && sceneOpacity.current < 1) {
       sceneOpacity.current = THREE.MathUtils.lerp(
         sceneOpacity.current,
         1,
         delta * 0.1
       );
+    }
+
+    if (end && sceneOpacity.current > 0) {
+      sceneOpacity.current = THREE.MathUtils.lerp(
+        sceneOpacity.current,
+        0,
+        delta
+      );
+    }
+
+    lineMaterialRef.current.opacity = sceneOpacity.current;
+
+    if (end) {
+      return;
     }
 
     const scrollOffset = Math.max(0, scroll.offset);
@@ -393,6 +447,14 @@ export const Experience = () => {
       )
     );
     airplane.current.quaternion.slerp(targetAirplaneQuaternion, delta * 2);
+
+    if (
+      cameraGroup.current.position.z <
+      curvePoints[curvePoints.length - 1].z + 100
+    ) {
+      setEnd(true);
+      planeOutTl.current.play();
+    }
   });
 
   const airplane = useRef();
@@ -404,6 +466,7 @@ export const Experience = () => {
   });
 
   const planeInTl = useRef();
+  const planeOutTl = useRef();
 
   useLayoutEffect(() => {
     tl.current = gsap.timeline();
@@ -429,9 +492,34 @@ export const Experience = () => {
     planeInTl.current = gsap.timeline();
     planeInTl.current.pause();
     planeInTl.current.from(airplane.current.position, {
-      duration: 3,
       z: 5,
+      duration: 3,
       y: -2,
+    });
+
+    planeOutTl.current = gsap.timeline();
+    planeOutTl.current.pause();
+
+    planeOutTl.current.to(
+      airplane.current.position,
+      {
+        duration: 10,
+        z: -250,
+        y: 10,
+      },
+      0
+    );
+    planeOutTl.current.to(
+      cameraRail.current.position,
+      {
+        duration: 8,
+        y: 12,
+      },
+      0
+    );
+    planeOutTl.current.to(airplane.current.position, {
+      duration: 1,
+      z: -1000,
     });
   }, []);
 
@@ -447,9 +535,15 @@ export const Experience = () => {
         <directionalLight position={[0.3, 1]} intensity={0.1} />
         {/* <OrbitControls /> */}
         <group ref={cameraGroup}>
+          <Speed />
           <Background backgroundColors={backgroundColors} />
           <group ref={cameraRail}>
-            <PerspectiveCamera position={[0, 0, 5]} fov={30} makeDefault />
+            <PerspectiveCamera
+              ref={camera}
+              position={[0, 0, 5]}
+              fov={30}
+              makeDefault
+            />
           </group>
           <group ref={airplane}>
             <Float floatIntensity={1} speed={1.5} rotationIntensity={0.5}>

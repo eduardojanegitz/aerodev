@@ -8,9 +8,9 @@ export const TextSection = ({ title, subtitle, ...props }) => {
           color="white"
           anchorX={"left"}
           anchorY={"bottom"}
-          lineHeight={1}
-          fontSize={0.52}
-          maxWidth={2.5}
+          lineHeight={4}
+          fontSize={0.3}
+          maxWidth={3.5}
           font={"./fonts/Poppins-Bold.ttf"}
         >
           {title}
@@ -25,8 +25,8 @@ export const TextSection = ({ title, subtitle, ...props }) => {
         color="white"
         anchorX={"left"}
         anchorY={"middle"}
-        position-y={-0.5}
-        fontSize={0.2}
+        position-y={-0.1}
+        fontSize={0.15}
         maxWidth={2.5}
         font={"./fonts/Poppins-Regular.ttf"}
       >
