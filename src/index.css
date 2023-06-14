@@ -71,6 +71,15 @@ body {
   display: none;
 }
 
+.close {
+  cursor: pointer;
+  margin-left: 0.5rem;
+}
+
+.popup-center {
+  color: red;
+}
+
 .logo {
   color: #fff;
   font-size: 8rem;
@@ -214,9 +223,59 @@ body {
   font-weight: bold;
   padding: 20px;
   cursor: pointer;
+  transition: opacity 8s ease-in-out;
 }
 
+/* POPUP */
+.modal {
+  font-size: 24px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 1rem;
+}
+.modal > .header {
+  width: 100%;
+  border-bottom: 1px solid gray;
+  font-size: 18px;
+  text-align: center;
+  padding: 5px;
+}
+.modal > .content {
+  width: 100%;
+  padding: 10px 5px;
+}
 
+.actions {
+  width: 150px;
+  cursor: pointer;
+  padding: 150px;
+}
+.modal > .actions {
+  width: 100%;
+  padding: 10px 5px;
+  margin: auto;
+  text-align: center;
+}
+.modal > .close {
+  cursor: pointer;
+  position: absolute;
+  display: block;
+  padding: 2px 5px;
+  line-height: 20px;
+  right: -10px;
+  top: -10px;
+  font-size: 24px;
+  background: #ffffff;
+  border-radius: 18px;
+  border: 1px solid #cfcece;
+}
+
+.github {
+  margin-right: 65px;
+}
+.title {
+  color: #FFF;
+}
 
 /* RESPONSIVE */
 
@@ -234,6 +293,14 @@ body {
 
   .outro__input {
     font-size: 1rem;
+  }
+
+  .form {
+    width: 300px;
+  }
+
+  .modal {
+    width: 300px;
   }
 }
 

@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import emailjs from '@emailjs/browser';
+import { PopupExample } from "./Popup";
 
 export const Contact = () => {
   const ref = useRef();
@@ -29,7 +30,7 @@ export const Contact = () => {
 
   return (
     <form className="form" ref={ref} onSubmit={handleSubmit}>
-      <h1>Contate-nos</h1>
+      <h1 className="title">Contate-nos</h1>
       <input className="input" placeholder="Nome" />
       <input className="input" placeholder="E-mail" />
       <textarea
@@ -38,12 +39,11 @@ export const Contact = () => {
         rows={10}
         name="message"
       />
-      <button className="button" type="submit">
-        Enviar
-      </button> 
-      {
-        success && "Agradecemos a sua mensagem!"
-      }
+      {/* <button className="button" type="submit"> */}
+        {/* Enviar */}
+        <PopupExample />
+      {/* </button>  */}
+      
     </form>
   );
 };
