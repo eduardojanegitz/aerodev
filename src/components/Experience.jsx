@@ -73,7 +73,7 @@ export const Experience = () => {
       {
         cameraRailDist: 1.5,
         position: new THREE.Vector3(
-          curvePoints[3].x - 4,
+          curvePoints[3].x + 3,
           curvePoints[3].y,
           curvePoints[3].z
         ),
@@ -83,7 +83,7 @@ export const Experience = () => {
       {
         cameraRailDist: 1.5,
         position: new THREE.Vector3(
-          curvePoints[4].x + 3.5,
+          curvePoints[4].x + 2.5,
           curvePoints[4].y,
           curvePoints[4].z - 12
         ),
@@ -306,7 +306,7 @@ export const Experience = () => {
   const scroll = useScroll();
   const lastScroll = useRef(0);
 
-  const { play, setHasScroll, end, setEnd } = usePlay();
+  const { play, setPlay, setHasScroll, end, setEnd } = usePlay();
 
   useFrame((_state, delta) => {
 if(window.innerWidth > window.innerHeight) {
@@ -453,6 +453,7 @@ if(window.innerWidth > window.innerHeight) {
       curvePoints[curvePoints.length - 1].z + 100
     ) {
       setEnd(true);
+      setPlay(false);
       planeOutTl.current.play();
     }
   });

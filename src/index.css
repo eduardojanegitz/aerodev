@@ -5,9 +5,12 @@
   height: 100vh;
 }
 
+* {
+  font-family: "Poppins", sans-serif;
+}
+
 body {
   margin: 0;
-  font-family: "Poppins";
   font-weight: 900;
 }
 
@@ -59,9 +62,16 @@ body {
   flex-direction: column;
   height: 100%;
 }
+.logo1 {
+  position: relative;
+  top: 42px;
+  transform-origin: center top;
+}
+.explore1 {
+  display: none;
+}
 
 .logo {
-  font-family: "Poppins", sans-serif;
   color: #fff;
   font-size: 8rem;
   letter-spacing: 0.5rem;
@@ -83,7 +93,6 @@ body {
 .intro__scroll {
   opacity: 0;
   color: #fff;
-  font-family: "Poppins", sans-serif;
   font-size: 1rem;
   letter-spacing: 0.05rem;
   position: absolute;
@@ -107,7 +116,7 @@ body {
   display: flex;
   align-items: center;
   opacity: 0;
-  transition: opacity 4s ease-in-out;
+  transition: opacity 8s ease-in-out;
 
   /* padding: 20px;
   background-color: #f0f0f0;
@@ -120,7 +129,6 @@ body {
 }
 
 .outro__input {
-  font-family: "Poppins", sans-serif;
   font-size: 1.5rem;
   color: #fff;
 }
@@ -128,7 +136,6 @@ body {
 .explore {
   padding: 1rem 2rem;
   border: none;
-  font-family: "Poppins", sans-serif;
   font-size: 1.25rem;
   letter-spacing: 0.25rem;
   color: #3535cc;
@@ -152,7 +159,7 @@ body {
 .explore:hover:before {
   width: 200%;
   height: 300%;
-  border-radius: 100%;
+  border-radius: 90%;
 }
 
 .explore:before {
@@ -171,6 +178,45 @@ body {
 .intro--disappear .explore {
   animation: fadeOut 1s ease-in-out forwards;
 }
+
+.form {
+  justify-content: center;
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.input {
+  padding: 20px;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 5px;
+}
+
+.textarea {
+  padding: 20px;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 5px;
+  font-family: "Poppins", sans-serif;
+}
+
+.button {
+  background-color: #3535cc;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: bold;
+  padding: 20px;
+  cursor: pointer;
+}
+
+
 
 /* RESPONSIVE */
 

@@ -1,9 +1,10 @@
 import { useProgress } from "@react-three/drei";
 import { usePlay } from "../contexts/Play";
+import { Contact } from "./Contact";
 
 export const Overlay = () => {
   const { progress } = useProgress();
-  const { play, end, setPlay, hasScroll } = usePlay();
+  const { play, end, setEnd, setPlay, hasScroll } = usePlay();
 
   return (
     <div
@@ -15,9 +16,13 @@ export const Overlay = () => {
         className={`loader ${progress === 100 ? "loader--disappear" : ""}`}
       />
       {progress === 100 && (
-        <div className={`intro ${play ? "intro--disappear" : ""}`}>
+        <div
+          className={`${end ? "explore1" : ""} intro ${
+            play ? "intro--disappear" : ""
+          }`}
+        >
           <h1 className="logo">EVENTORY.</h1>
-          <p className="intro__scroll">Deslize para baixo para começar</p>
+          <p className="intro__scroll">Desça para iniciar</p>
           <button
             className="explore"
             onClick={() => {
@@ -28,9 +33,10 @@ export const Overlay = () => {
           </button>
         </div>
       )}
-      <div  className={`outro ${end ? "outro--appear" : ""}`}>
-        <textarea className="outro__input" placeholder="seuemail@email.com" />
-        {/* <button className="explore" onClick={setPlay(false)}>Contate-nos</button> */}
+      <div className={`outro ${end ? "outro--appear " : ""}`}>
+        {/* <h1 className="logo1">EVENTORY.</h1> */}
+        <Contact />
+        
       </div>
     </div>
   );
