@@ -25,9 +25,9 @@ export const TextSection = ({ title, subtitle, alternative, ...props }) => {
         color="white"
         anchorX={"left"}
         anchorY={"middle"}
-        position-y={-0.1}
+        position-y={-0.3}
         fontSize={0.15}
-        maxWidth={4.2}
+        maxWidth={3.1}
         font={"./fonts/Poppins-Regular.ttf"}
       >
         {subtitle}
