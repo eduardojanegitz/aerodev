@@ -53,32 +53,32 @@ export const Experience = () => {
       {
         cameraRailDist: -1,
         position: new THREE.Vector3(
-          curvePoints[1].x - 3,
+          curvePoints[1].x - 4,
           curvePoints[1].y,
           curvePoints[1].z
         ),
-        title: "Bem-vindo.",
+        alternative: "Bem-vindo.",
         subtitle: `Controle o seu patrimônio com o EVENTORY. `,
       },
       {
         cameraRailDist: 1.5,
         position: new THREE.Vector3(
-          curvePoints[2].x + 2,
+          curvePoints[2].x + 1,
           curvePoints[2].y,
-          curvePoints[2].z
+          curvePoints[2].z 
         ),
-        title: "Quem somos",
-        subtitle: `Somos a evecoding, uma empresa de soluções customizadas de software.`,
+        alternative: "Quem somos",
+        subtitle: `Somos a evecoding, uma empresa de soluções customizadas de software`,
       },
       {
-        cameraRailDist: 1.5,
+        cameraRailDist: 2,
         position: new THREE.Vector3(
-          curvePoints[3].x + 3,
+          curvePoints[3].x + 2,
           curvePoints[3].y,
           curvePoints[3].z
         ),
         title: "Segurança",
-        subtitle: `O Eventory oferece segurança robusta, protegendo ativos e garantindo integridade de dados, assim como a segurança em um voo de avião.`,
+        subtitle: `O EVENTORY. oferece segurança robusta, protegendo ativos e garantindo integridade de dados, assim como a segurança em um voo de avião`,
       },
       {
         cameraRailDist: 1.5,
@@ -87,23 +87,23 @@ export const Experience = () => {
           curvePoints[4].y,
           curvePoints[4].z - 12
         ),
-        // title: "Visão Panorâmica",
+        title: "Visão Panorâmica",
         subtitle: `Obtenha uma visão completa e em tempo real do seu patrimônio com nossos dashboards poderosos. Assim como um avião oferece uma visão panorâmica, nossos dashboards simplificam a gestão, permitindo que você tome decisões informadas`,
       },
       {
-        cameraRailDist: 1.5,
+        cameraRailDist: 1.2,
         position: new THREE.Vector3(
-          curvePoints[5].x - 3.5,
+          curvePoints[5].x + 1.9,
           curvePoints[5].y,
-          curvePoints[5].z - 1
+          curvePoints[5].z 
         ),
-        // title: "Visão Panorâmica",
+        title: "Rastreamento",
         subtitle: `Monitore em tempo real o status e localização dos ativos, assim como um piloto acompanha o progresso do voo. Mantenha um monitoramento preciso e contínuo das atividades relacionadas ao seu patrimônio.`,
       },
       {
         cameraRailDist: 1.5,
         position: new THREE.Vector3(
-          curvePoints[6].x + 2.5,
+          curvePoints[6].x + 1.3,
           curvePoints[6].y,
           curvePoints[6].z
         ),
