@@ -1,49 +1,107 @@
 import React, { useRef, useState } from "react";
-import emailjs from '@emailjs/browser';
-import { PopupExample } from "./Popup";
+
+import Github from "../assets/github.png";
+import Linkedin from "../assets/linkedin.png";
+import emailjs from "@emailjs/browser";
+import Modal from "react-modal";
+import { AiFillCloseCircle } from "react-icons/ai";
+
+Modal.setAppElement("#root");
 
 export const Contact = () => {
   const ref = useRef();
   const [success, setSuccess] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
+
+  const reloadPage = () => {
+    location.reload();
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     emailjs
       .sendForm(
-        "service_b3fkq1m",
-        "template_rg3pq8i",
+        import.meta.env.VITE_SERVICE_ID,
+        import.meta.env.VITE_TEMPLATE_KEY,
         ref.current,
-        "XjIAlJflG5LEd35gy"
+        import.meta.env.VITE_PUBLIC_KEY
       )
       .then(
-        (result) => {
-          console.log(result.text);
+        () => {
           setSuccess(true);
         },
         (error) => {
-          console.log(error.text);
+          console.log(error);
           setSuccess(false);
         }
       );
   };
 
   return (
-    <form className="form" ref={ref} onSubmit={handleSubmit}>
-      <h1 className="title">Contate-nos</h1>
-      <input className="input" placeholder="Nome" />
-      <input className="input" placeholder="E-mail" />
-      <textarea
-        className="textarea"
-        placeholder="Escreva a sua mensagem..."
-        rows={10}
-        name="message"
-      />
-      {/* <button className="button" type="submit"> */}
-        {/* Enviar */}
-        <PopupExample />
-      {/* </button>  */}
-      
-    </form>
+    <div>
+      <form className="form" ref={ref} onSubmit={handleSubmit}>
+        <h1 className="form-title">Contate-me</h1>
+        <input name="name" className="input" placeholder="Nome" required />
+        <input name="email" className="input" placeholder="E-mail" required />
+        <textarea
+          className="textarea"
+          placeholder="Escreva a sua mensagem..."
+          rows={10}
+          name="message"
+          required
+        />
+        <button className="button" type="submit" onClick={openModal}>
+          Enviar
+        </button>
+      </form>
+      {success == true ? (
+        <Modal
+          isOpen={modalIsOpen}
+          onRequestClose={closeModal}
+          contentLabel="Links do GitHub e LinkedIn"
+          className="modal-content"
+          overlayClassName="modal-overlay"
+        >
+          <div className="modal-header">
+            <h3>Muito obrigado pela mensagem!</h3>
+            <button className="modal-close-button" onClick={closeModal}>
+              <AiFillCloseCircle />
+            </button>
+          </div>
+          <div className="modal-body">
+            <a
+              href="https://github.com/eduardojanegitz/aerodev"
+              target="_blank"
+            >
+              {" "}
+              <img src={Github} alt="Ícone di Github"></img>
+            </a>
+            <a
+              href="https://www.linkedin.com/in/eduardo-alves-091aa1219/"
+              target="_blank"
+            >
+              {" "}
+              <img src={Linkedin} alt="Ícone do Linkedin"></img>
+            </a>
+          </div>
+          <div className="reload-page">
+            <button className="button" onClick={reloadPage}>
+              Viajar novamente
+            </button>
+          </div>
+        </Modal>
+      ) : (
+        ""
+      )}
+    </div>
   );
 };

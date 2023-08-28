@@ -17,11 +17,11 @@ export const Overlay = () => {
       />
       {progress === 100 && (
         <div
-          className={`${end ? "explore1" : ""} intro ${
+          className={`${end ? "end" : ""} intro ${
             play ? "intro--disappear" : ""
           }`}
         >
-          <h1 className="logo">EVENTORY.</h1>
+          <h1 className="logo">AERODEV.</h1>
           <p className="intro__scroll">Desça para iniciar</p>
           <button
             className="explore"
@@ -34,9 +34,7 @@ export const Overlay = () => {
         </div>
       )}
       <div className={`outro ${end ? "outro--appear " : ""}`}>
-        {/* <h1 className="logo1">EVENTORY.</h1> */}
         <Contact />
-        
       </div>
     </div>
   );
