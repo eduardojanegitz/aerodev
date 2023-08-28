@@ -1,11 +1,4 @@
-import {
-  Float,
-  Line,
-  OrbitControls,
-  PerspectiveCamera,
-  Text,
-  useScroll,
-} from "@react-three/drei";
+import { Float, PerspectiveCamera, useScroll } from "@react-three/drei";
 import { Background } from "./Background";
 import { Airplane } from "./Airplane";
 import { Cloud } from "./Cloud";
@@ -43,7 +36,6 @@ export const Experience = () => {
   const sceneOpacity = useRef(0);
   const lineMaterialRef = useRef();
 
-  /* RESPONSÁVEL POR GERAR A DIREÇÃO DA LINHA BRANCA */
   const curve = useMemo(() => {
     return new THREE.CatmullRomCurve3(curvePoints, false, "catmullrom", 0.5);
   }, []);
@@ -55,60 +47,55 @@ export const Experience = () => {
         position: new THREE.Vector3(
           curvePoints[1].x - 3,
           curvePoints[1].y,
-          curvePoints[1].z
+          curvePoints[1].z - 1
         ),
-        title: "Bem-vindo.",
-        subtitle: `Controle o seu patrimônio com o EVENTORY. `,
+        content:
+          "Seja bem-vindo(a). Aqui, eu transformo ideias em realidade, guiando você por uma viagem de descoberta visual.",
       },
       {
-        cameraRailDist: 1.5,
+        cameraRailDist: 2,
         position: new THREE.Vector3(
-          curvePoints[2].x + 2,
+          curvePoints[2].x + 1,
           curvePoints[2].y,
-          curvePoints[2].z
+          curvePoints[2].z - 1
         ),
-        title: "Quem somos",
-        subtitle: `Somos a evecoding, uma empresa de soluções customizadas de software.`,
+        content: `À medida que o avião avança, convido você a explorar meu mundo criativo. Juntos, transformaremos ideias em experiências visuais envolventes.`,
       },
       {
-        cameraRailDist: 1.5,
+        cameraRailDist: -2,
         position: new THREE.Vector3(
-          curvePoints[3].x + 3,
+          curvePoints[3].x - 3,
           curvePoints[3].y,
           curvePoints[3].z
         ),
-        title: "Segurança",
-        subtitle: `O Eventory oferece segurança robusta, protegendo ativos e garantindo integridade de dados, assim como a segurança em um voo de avião.`,
+        content: `Assim como um avião que supera desafios, estou aqui para construir soluções criativas. Cada pixel é uma peça do quebra-cabeça que leva a resultados surpreendentes.`,
       },
       {
-        cameraRailDist: 1.5,
+        cameraRailDist: 2,
         position: new THREE.Vector3(
           curvePoints[4].x + 2.5,
           curvePoints[4].y,
           curvePoints[4].z - 12
         ),
-        // title: "Visão Panorâmica",
-        subtitle: `Obtenha uma visão completa e em tempo real do seu patrimônio com nossos dashboards poderosos. Assim como um avião oferece uma visão panorâmica, nossos dashboards simplificam a gestão, permitindo que você tome decisões informadas`,
+        content: `Enquanto o avião navega pelos céus, minha paixão pela web cresce. Transformo códigos em experiências digitais intuitivas, proporcionando jornadas online cativantes.`,
       },
       {
-        cameraRailDist: 1.5,
+        cameraRailDist: -2,
         position: new THREE.Vector3(
           curvePoints[5].x - 3.5,
           curvePoints[5].y,
-          curvePoints[5].z - 1
+          curvePoints[5].z + 2
         ),
-        // title: "Visão Panorâmica",
-        subtitle: `Monitore em tempo real o status e localização dos ativos, assim como um piloto acompanha o progresso do voo. Mantenha um monitoramento preciso e contínuo das atividades relacionadas ao seu patrimônio.`,
+        content: `Convido você a se juntar a mim nessa jornada criativa. Vamos explorar novos horizontes juntos, unindo visões únicas para criar algo extraordinário.`,
       },
       {
-        cameraRailDist: 1.5,
+        cameraRailDist: 1.3,
         position: new THREE.Vector3(
-          curvePoints[6].x + 2.5,
+          curvePoints[6].x + 1.3,
           curvePoints[6].y,
           curvePoints[6].z
         ),
-        title: "Agrangência",
-        subtitle: `Nossa solução abrange e monitora múltiplos locais e ativos, proporcionando controle abrangente independentemente da localização, como um avião cobrindo vastas áreas`,
+        content: `Enquanto o avião se prepara para aterrissar, estou pronto para receber suas ideias. Vamos trabalhar juntos e transformar sua visão em um projeto memorável.`,
       },
     ];
   }, []);
@@ -299,7 +286,6 @@ export const Experience = () => {
     return shape;
   }, [curve]);
 
-  /* RESPONSÁVEL POR FAZER O AVIÃO IR PARA FRENTE */
   const cameraGroup = useRef();
   const cameraRail = useRef();
   const camera = useRef();
@@ -309,15 +295,15 @@ export const Experience = () => {
   const { play, setPlay, setHasScroll, end, setEnd } = usePlay();
 
   useFrame((_state, delta) => {
-if(window.innerWidth > window.innerHeight) {
-  // LANDSCAPE
-  camera.current.fov = 30;
-  camera.current.position.z = 5;
-} else {
-  // PORTRAIT
-  camera.current.fov = 80;
-  camera.current.position.z = 2
-}
+    if (window.innerWidth > window.innerHeight) {
+      // LANDSCAPE
+      camera.current.fov = 30;
+      camera.current.position.z = 5;
+    } else {
+      // PORTRAIT
+      camera.current.fov = 80;
+      camera.current.position.z = 2;
+    }
 
     if (lastScroll.current <= 0 && scroll.offset > 0) {
       setHasScroll(true);
@@ -534,7 +520,6 @@ if(window.innerWidth > window.innerHeight) {
     () => (
       <>
         <directionalLight position={[0.3, 1]} intensity={0.1} />
-        {/* <OrbitControls /> */}
         <group ref={cameraGroup}>
           <Speed />
           <Background backgroundColors={backgroundColors} />
@@ -563,13 +548,6 @@ if(window.innerWidth > window.innerHeight) {
         ))}
         {/* LINE */}
         <group position-y={-2}>
-          {/* <Line
-          points={linePoints}
-          color={"white"}
-          opacity={0.7}
-          transparent
-          lineWidth={16}
-        /> */}
           <mesh>
             <extrudeGeometry
               args={[
