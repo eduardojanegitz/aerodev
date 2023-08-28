@@ -45,7 +45,7 @@ export const Experience = () => {
       {
         cameraRailDist: -1,
         position: new THREE.Vector3(
-          curvePoints[1].x - 3,
+          curvePoints[1].x - 4,
           curvePoints[1].y,
           curvePoints[1].z - 1
         ),
@@ -82,7 +82,7 @@ export const Experience = () => {
       {
         cameraRailDist: -2,
         position: new THREE.Vector3(
-          curvePoints[5].x - 3.5,
+          curvePoints[5].x + 1.9,
           curvePoints[5].y,
           curvePoints[5].z + 2
         ),

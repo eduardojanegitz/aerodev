@@ -67,6 +67,15 @@ body {
   display: none;
 }
 
+.close {
+  cursor: pointer;
+  margin-left: 0.5rem;
+}
+
+.popup-center {
+  color: red;
+}
+
 .logo {
   color: #fff;
   font-size: 5rem;
