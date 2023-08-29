@@ -45,7 +45,7 @@ export const Experience = () => {
       {
         cameraRailDist: -1,
         position: new THREE.Vector3(
-          curvePoints[1].x - 4,
+          curvePoints[1].x - 3,
           curvePoints[1].y,
           curvePoints[1].z - 1
         ),
@@ -62,9 +62,9 @@ export const Experience = () => {
         content: `À medida que o avião avança, convido você a explorar meu mundo criativo. Juntos, transformaremos ideias em experiências visuais envolventes.`,
       },
       {
-        cameraRailDist: -2,
+        cameraRailDist: -1.7,
         position: new THREE.Vector3(
-          curvePoints[3].x - 3,
+          curvePoints[3].x - 3.2,
           curvePoints[3].y,
           curvePoints[3].z
         ),
@@ -82,16 +82,16 @@ export const Experience = () => {
       {
         cameraRailDist: -2,
         position: new THREE.Vector3(
-          curvePoints[5].x + 1.9,
+          curvePoints[5].x - 3.5,
           curvePoints[5].y,
           curvePoints[5].z + 2
         ),
         content: `Convido você a se juntar a mim nessa jornada criativa. Vamos explorar novos horizontes juntos, unindo visões únicas para criar algo extraordinário.`,
       },
       {
-        cameraRailDist: 1.3,
+        cameraRailDist: 1,
         position: new THREE.Vector3(
-          curvePoints[6].x + 1.3,
+          curvePoints[6].x + 1,
           curvePoints[6].y,
           curvePoints[6].z
         ),
